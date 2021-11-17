@@ -8,13 +8,13 @@ const url = process.argv[2];
     headless: false
   });
   const page = await browser.newPage();
-  await page.goto(url);
+  await page.goto(url, {waitUntil: "domcontentloaded"});
 
   const title = await page.$eval('.range-revamp-aspect-ratio-image__image', (el) => {
-    return el?.alt || '--'
+    return el?.alt;
   });
   const img = await page.$eval('.range-revamp-aspect-ratio-image__image', (el) => {
-    return el?.src || '--'
+    return el?.src;
   });
   const price = await page.$eval('.range-revamp-price__integer', (el) => {
     return el?.textContent;
