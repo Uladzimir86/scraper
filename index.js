@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer');
 
 const url = process.argv[2];
 (async () => {
+  if(url) {
   const browser = await puppeteer.launch({
     headless: false
   });
@@ -28,4 +29,6 @@ const url = process.argv[2];
   require('child_process').spawn('clip').stdin.end(` ${title.toUpperCase()} \r\n Фото: ${img} \r\n Стоимость: ${price} рус. руб. \r\n Ссылка на сайт: ${url} `, 'utf16le');
 
   await browser.close();
+  } else console.log('no url...');
 })();
+// https://www.ikea.com/ru/ru/p/songesand-songesand-karkas-krovati-s-2-yashchikami-belyy-lonset-s19241009/
