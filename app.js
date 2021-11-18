@@ -1,11 +1,19 @@
 const puppeteer = require('puppeteer');
 const https = require('https');
+const cors = require('cors');
+
+const express = require('express')
+const app = express()
+const port = process.env.PORT || 3000;
+app.use(express.json());
+app.use(cors());
 
 const tokenHanna = '2134912925:AAHAs9SxkYrlGDyOPdkYlu7swDwaALvW8mc';
-const url = process.argv[2];
-const coef = 0.0365;
+// const url = process.argv[2];
+// const coef = 0.0365;
 
-(async () => {
+const getData = async (url, coef = 0) => {
+  console.log(url, 'coef: ', coef)
   if(url && url.match('https://www.ikea.com/ru/ru/')) {
   const browser = await puppeteer.launch({
     // headless: false
@@ -24,7 +32,7 @@ const coef = 0.0365;
   });
   const priceBy = coef ? ` Цена BY: ${(Number(priceRu) * coef).toFixed(2)} бел. руб.` : '';
 
-  const data = ` ${title.toUpperCase()}\r\n%0A Фото: ${img}\r\n%0A ${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A Ссылка на сайт: ${url} `;
+  const data = ` ${title.toUpperCase()}\r\n%0A Фото: ${img}\r\n%0A${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A Ссылка на сайт: ${url} `;
 
   // put data to storage buffer
   // require('child_process').spawn('clip').stdin.end(data, 'utf16le');
@@ -35,7 +43,7 @@ const coef = 0.0365;
   console.log("Error_https_get: " + err.message);
 });
   } else console.log('no url, or wrong website address');
-})();
+};
 
 // https://www.ikea.com/ru/ru/p/songesand-songesand-karkas-krovati-s-2-yashchikami-belyy-lonset-s19241009/
 
@@ -45,3 +53,14 @@ const coef = 0.0365;
 //fetch(`https://api.telegram.org/bot${tokenHanna}/getUpdates`) // to find chat_id
 
 // %0A - new string in TG
+
+app.post('/', async (req, res) => {
+  console.log((req.body))
+  const {url, coef} = req.body;
+  await getData(url, coef)
+  res.send('ok')
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
