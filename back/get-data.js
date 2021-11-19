@@ -1,12 +1,5 @@
 const puppeteer = require('puppeteer');
 const https = require('https');
-const cors = require('cors');
-
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000;
-app.use(express.json());
-app.use(cors());
 
 const tokenHanna = '2134912925:AAHAs9SxkYrlGDyOPdkYlu7swDwaALvW8mc';
 
@@ -52,17 +45,7 @@ const getData = async (url, coef = 0) => {
   return result;
 };
 
-
-app.post('/', async (req, res) => {
-  const {url, coef} = req.body;
-  const answer = await getData(url, coef);
-  res.send(answer);
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
-
+module.exports = getData;
 ///////////////
 //https.get(`https://api.telegram.org/bot${tokenHanna}/getMe`) // to find bot_id
 

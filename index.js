@@ -4,7 +4,8 @@ const coefInput = document.getElementById('coef');
 
 const btnHandler = async(event) => {
   event.preventDefault();
-  btn.classList.add('form__btn_disable');
+  // btn.classList.add('form__btn_disable');
+  btn.disabled = true;
   console.log('urlInput.value',urlInput.value)
   const data = {
     url: urlInput.value,
@@ -21,7 +22,8 @@ const btnHandler = async(event) => {
   .then(res => alert(res))
   .catch(err => alert('Error: ' + err.message))
   
-  btn.classList.remove('form__btn_disable');
+  btn.disabled = false;
+  // btn.classList.remove('form__btn_disable');
 }
 
 btn.addEventListener('click', btnHandler);
