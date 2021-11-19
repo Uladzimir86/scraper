@@ -12,10 +12,11 @@ const btnHandler = async(event) => {
     coef: coefInput.value,
   };
   
-  await fetch('http://localhost:3000',{
+  await fetch('https://scraper-for-hanna.herokuapp.com/',{
     method: 'POST',
+    mode: 'no-cors',
     headers: {
-      'Content-Type': 'application/json;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8',
     },
     body: JSON.stringify(data)
   }).then(res => res.text())
