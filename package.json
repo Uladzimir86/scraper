@@ -6,6 +6,6 @@
     "puppeteer": "^11.0.0"
   },
   "scripts": {
-    "build": "node './back/app.js"
+    "build": "node ./back/app.js"
   }
 }
