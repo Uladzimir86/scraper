@@ -14,7 +14,6 @@ const btnHandler = async(event) => {
   
   await fetch('https://scraper-for-hanna.herokuapp.com/',{
     method: 'POST',
-    mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
