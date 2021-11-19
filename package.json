@@ -6,8 +6,6 @@
     "puppeteer": "^11.0.0"
   },
   "scripts": {
-    "build": "node ./back/app.js",
-    "heroku-postbuild": "npm run build"
-
+    "start": "node back/app.js"
   }
 }
