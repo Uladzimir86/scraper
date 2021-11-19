@@ -10,17 +10,18 @@ const btnHandler = async(event) => {
     url: urlInput.value,
     coef: coefInput.value,
   };
-  fetch('http://localhost:3000',{
+  
+  await fetch('http://localhost:3000',{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
     },
     body: JSON.stringify(data)
-  }).then(res => {
-    if(res.ok) alert('Your message have been send');
-    console.log(res.ok)
-  })
+  }).then(res => res.text())
+  .then(res => alert(res))
+  .catch(err => alert('Error: ' + err.message))
+  
   btn.classList.remove('form__btn_disable');
-
 }
+
 btn.addEventListener('click', btnHandler);
