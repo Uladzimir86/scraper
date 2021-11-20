@@ -34,3 +34,18 @@
     background-color: grey;
     pointer-events: none;
 }
+
+@media screen and (max-width: 400px){
+    .form {
+        width: 90%;
+    }
+    .form__label {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+    }
+    .form__input {
+        width: 96%;
+        margin-top: 5px;
+    }
+}
