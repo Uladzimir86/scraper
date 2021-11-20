@@ -8,7 +8,7 @@ const getData = async (url, coef = 0) => {
   let result = 'OK';
 
   if(url && url.match('https://www.ikea.com/ru/ru/')) {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: "domcontentloaded"});
     
