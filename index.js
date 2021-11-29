@@ -12,7 +12,8 @@ const btnHandler = async(event) => {
     coef: coefInput.value,
   };
   
-  await fetch('https://scraper-for-hanna.herokuapp.com/',{
+  await fetch('http://localhost:3000',{
+  // await fetch('https://scraper-for-hanna.herokuapp.com/',{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
