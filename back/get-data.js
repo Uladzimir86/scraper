@@ -19,13 +19,15 @@ const getData = async (url, coef = 0) => {
       const img = await page.$eval('.range-revamp-aspect-ratio-image__image', (el) => {
         return (el?.src || '--');
       });
-      const priceRu = await page.$eval('.range-revamp-price__integer', (el) => {
+      const priceRu = await page.$eval('.range-revamp-pip-price-package__main-price .range-revamp-price__integer', (el) => {
         return (el?.textContent || '--');
       });
+      console.log(priceRu);
 
       const priceBy = coef ? ` Цена BY: ${(Number(priceRu) * coef).toFixed(2)} бел. руб.` : '';
       const data = ` ${title.toUpperCase()}\r\n%0A Фото: ${img}\r\n%0A${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A Ссылка на сайт: ${url} `;
     
+      // https.get(`https://api.telegram.org/bot${tokenHanna}/sendMessage?chat_id=-602230664&text=${data}`, (res) => {
       https.get(`https://api.telegram.org/bot${tokenHanna}/sendMessage?chat_id=-1001441630417&text=${data}`, (res) => {
         const { statusCode } = res;
         if(statusCode === 200) result = 'Something wrong with Telegram!'
@@ -46,6 +48,7 @@ const getData = async (url, coef = 0) => {
 };
 
 module.exports = getData;
+
 ///////////////
 //https.get(`https://api.telegram.org/bot${tokenHanna}/getMe`) // to find bot_id
 

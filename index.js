@@ -1,17 +1,18 @@
-const btn = document.getElementById('btn');
+const btnPaste = document.getElementById('btn-paste');
 const urlInput = document.getElementById('url');
 const coefInput = document.getElementById('coef');
 
-const btnHandler = async(event) => {
+const btnPasteHandler = async(event) => {
   event.preventDefault();
-  // btn.classList.add('form__btn_disable');
-  btn.disabled = true;
-  console.log('urlInput.value',urlInput.value)
+  btnPaste.disabled = true;
+  urlInput.value = await navigator.clipboard.readText().then(d => d)
+
   const data = {
     url: urlInput.value,
     coef: coefInput.value,
   };
-  
+  console.log(data)
+  // await fetch('http://localhost:3000',{
   await fetch('https://scraper-for-hanna.herokuapp.com/',{
     method: 'POST',
     headers: {
@@ -22,8 +23,7 @@ const btnHandler = async(event) => {
   .then(res => alert(res))
   .catch(err => alert('Error: ' + err.message))
   
-  btn.disabled = false;
-  // btn.classList.remove('form__btn_disable');
+  btnPaste.disabled = false;
 }
 
-btn.addEventListener('click', btnHandler);
+btnPaste.addEventListener('click', btnPasteHandler);
