@@ -8,7 +8,7 @@ const getData = async (url, coef = 0) => {
   let result = 'OK';
 
   if(url && url.match('https://www.ikea.com/ru/ru/')) {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: "domcontentloaded"});
     
@@ -26,7 +26,7 @@ const getData = async (url, coef = 0) => {
       const priceBy = coef ? ` Цена BY: ${(Number(priceRu) * coef).toFixed(2)} бел. руб.` : '';
       const data = ` ${title.toUpperCase()}\r\n%0A Фото: ${img}\r\n%0A${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A Ссылка на сайт: ${url} `;
     
-      https.get(`https://api.telegram.org/bot${tokenHanna}/sendMessage?chat_id=-602230664&text=${data}`, (res) => {
+      https.get(`https://api.telegram.org/bot${tokenHanna}/sendMessage?chat_id=-1001441630417&text=${data}`, (res) => {
         const { statusCode } = res;
         if(statusCode === 200) result = 'Something wrong with Telegram!'
       })
@@ -59,4 +59,5 @@ module.exports = getData;
 // Put data to storage buffer:
 // require('child_process').spawn('clip').stdin.end(data, 'utf16le');
 
+//  chat: { id: -602230664, title: 'TU'},
 //  chat: { id: -1001441630417, title: 'ИКЕЯ малиновка'},
