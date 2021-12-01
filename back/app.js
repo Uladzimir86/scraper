@@ -9,8 +9,8 @@ app.use(express.json());
 app.use(cors());
 
 app.post('/', async (req, res) => {
-    const {url, coef} = req.body;
-    const answer = await getData(url, coef);
+    const {url, coef, site} = req.body;
+    const answer = await getData(url, coef, site);
     res.send(answer);
 })
   
