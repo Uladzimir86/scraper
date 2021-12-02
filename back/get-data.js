@@ -18,32 +18,50 @@ const getData = async (url, coef = 0, site) => {
       titleSelector = '.range-revamp-aspect-ratio-image__image';
       imgSelector = '.range-revamp-aspect-ratio-image__image';
       priceSelector = '.range-revamp-pip-price-package__main-price .range-revamp-price__integer';
-      chatId = '-602230664';
+      chatId = '-1001441630417';
+      break;
+    case 'SIMA-LAND': 
+      urlCheck = 'https://www.sima-land.ru/';
+      titleSelector = 'h1[data-testid="product-name"]';
+      imgSelector = '.oxC1a';
+      priceSelector = 'span[data-testid="cart-control:price"]';
+      chatId = '-1001465270771';
       break;
     default: break;
   }
+
   if(url && url.match(urlCheck)) {
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: "domcontentloaded"});
     
     try {
-      const title = await page.$eval(titleSelector, (el) => {
-        return (el?.alt || '--');
-      });
+      let title = '--';
+      if (site === 'IKEA') {
+        title = await page.$eval(titleSelector, (el) => {
+          return (el?.alt || '--');
+        });
+      } else if (site === 'SIMA-LAND') {
+        title = await page.$eval(titleSelector, (el) => {
+          return (el?.textContent || '--');
+        });
+      }
+      
       const img = await page.$eval(imgSelector, (el) => {
         return (el?.src || '--');
       });
-      const priceRu = await page.$eval(priceSelector, (el) => {
+
+      let priceRu = await page.$eval(priceSelector, (el) => {
         return (el?.textContent || '--');
       });
-      console.log(priceRu);
+      if (site === 'IKEA') priceRu = Number(priceRu);
+      else if (site === 'SIMA-LAND')  priceRu = +priceRu.match(/\d+,*\d*/)[0].replace(',','.');
 
-      const priceBy = coef ? ` Цена BY: ${(Number(priceRu) * coef).toFixed(2)} бел. руб.` : '';
+      const priceBy = coef ? ` Цена BY: ${(priceRu * coef).toFixed(2)} бел. руб.\r\n%0A` : '';
       const data = ` ${title.toUpperCase()}\r\n%0A ${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A Ссылка на сайт: ${url} `;
-      // const data = ` ${title.toUpperCase()}\r\n%0A Фото: ${img}\r\n%0A${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A Ссылка на сайт: ${url} `;
-      
-      await https.get(`https://api.telegram.org/bot${tokenHanna}/sendPhoto?chat_id=${chatId}&photo=${img}`, (res) => {
+      console.log(data)
+
+      await https.get(`https://api.telegram.org/bot${tokenHanna}/sendPhoto?chat_id=${chatId}&photo=${img}&caption=${data}`, (res) => {
         const { statusCode } = res;
         if(statusCode === 200) result = 'Something wrong with Telegram!'
       })
@@ -51,17 +69,7 @@ const getData = async (url, coef = 0, site) => {
         result = "Error: " + err.message;
         console.log("Error_https_get: " + err.message);
       });
-      setTimeout(() => {
-        https.get(`https://api.telegram.org/bot${tokenHanna}/sendMessage?chat_id=${chatId}&text=${data}`, (res) => {
-          const { statusCode } = res;
-          if(statusCode === 200) result = 'Something wrong with Telegram!'
-        })
-        .on("error", (err) => {
-          result = "Error: " + err.message;
-          console.log("Error_https_get: " + err.message);
-        });
-      }, 1000) // without timeout message will be faster then photo
-   
+
     } catch(e){
       result = e.message;
       console.log(e.message);
@@ -90,3 +98,4 @@ module.exports = getData;
 
 //  chat: { id: -602230664, title: 'TU'},
 //  chat: { id: -1001441630417, title: 'ИКЕЯ малиновка'},
+//  chat: { id: -1001465270771, title: 'СИМА_Малиновка_постоянные'},
