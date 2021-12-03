@@ -21,7 +21,7 @@ const getData = async (url, coef = 0, site) => {
       chatId = '-1001441630417';
       break;
     case 'SIMA-LAND': 
-      urlCheck = 'https://www.sima-land.ru/';
+      urlCheck = 'sima-land.ru';
       titleSelector = 'h1[data-testid="product-name"]';
       imgSelector = '.oxC1a';
       priceSelector = 'span[data-testid="cart-control:price"]';
