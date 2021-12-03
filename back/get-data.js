@@ -18,7 +18,7 @@ const getData = async (url, coef = 0, site) => {
       titleSelector = '.range-revamp-aspect-ratio-image__image';
       imgSelector = '.range-revamp-aspect-ratio-image__image';
       priceSelector = '.range-revamp-pip-price-package__main-price .range-revamp-price__integer';
-      chatId = '-1001441630417';
+      chatId = '-602230664';
       break;
     case 'SIMA-LAND': 
       urlCheck = 'sima-land.ru';
