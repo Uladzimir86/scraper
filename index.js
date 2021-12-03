@@ -13,17 +13,17 @@ const btnPasteHandler = async(event) => {
     coef: coefInput.value,
     site: site.value,
   };
-  console.log(data)
+  console.log(site.value)
   // await fetch('http://localhost:3000',{
-  await fetch('https://scraper-for-hanna.herokuapp.com/',{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify(data)
-  }).then(res => res.text())
-  .then(res => alert(res))
-  .catch(err => alert('Error: ' + err.message))
+  // // await fetch('https://scraper-for-hanna.herokuapp.com/',{
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json;charset=utf-8',
+  //   },
+  //   body: JSON.stringify(data)
+  // }).then(res => res.text())
+  // .then(res => alert(res))
+  // .catch(err => alert('Error: ' + err.message))
   
   btnPaste.disabled = false;
 }
