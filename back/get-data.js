@@ -54,11 +54,15 @@ const getData = async (url, coef = 0, site) => {
       let priceRu = await page.$eval(priceSelector, (el) => {
         return (el?.textContent || '--');
       });
+      console.log(priceRu)
       if (site === 'IKEA') priceRu = Number(priceRu);
       else if (site === 'SIMA-LAND')  priceRu = +priceRu.match(/\d+,*\d*/)[0].replace(',','.');
-
       const priceBy = coef ? ` Цена BY: ${(priceRu * coef).toFixed(2)} бел. руб.\r\n%0A` : '';
-      const data = ` ${title.toUpperCase()}\r\n%0A ${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A Ссылка на сайт: ${url} `;
+      
+      let price = `${priceBy} (Цена RU: ${priceRu} рус. руб.)\r\n%0A`;
+      if (isNaN(priceRu)) price = '';
+
+      const data = ` ${title.toUpperCase()}\r\n%0A ${price} Ссылка на сайт: ${url} `;
       console.log(data)
 
       await https.get(`https://api.telegram.org/bot${tokenHanna}/sendPhoto?chat_id=${chatId}&photo=${img}&caption=${data}`, (res) => {
