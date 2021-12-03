@@ -18,7 +18,8 @@ const getData = async (url, coef = 0, site) => {
       titleSelector = '.range-revamp-aspect-ratio-image__image';
       imgSelector = '.range-revamp-aspect-ratio-image__image';
       priceSelector = '.range-revamp-pip-price-package__main-price .range-revamp-price__integer';
-      chatId = '-602230664';
+      chatId = '-1001441630417';
+      // chatId = '-602230664'; // Tu
       break;
     case 'SIMA-LAND': 
       urlCheck = 'sima-land.ru';
@@ -55,7 +56,7 @@ const getData = async (url, coef = 0, site) => {
         return (el?.textContent || '--');
       });
       console.log(priceRu)
-      if (site === 'IKEA') priceRu = Number(priceRu);
+      if (site === 'IKEA') priceRu = Number(priceRu.replace(' ', ''));
       else if (site === 'SIMA-LAND')  priceRu = +priceRu.match(/\d+,*\d*/)[0].replace(',','.');
       const priceBy = coef ? ` Цена BY: ${(priceRu * coef).toFixed(2)} бел. руб.\r\n%0A` : '';
       
@@ -100,6 +101,6 @@ module.exports = getData;
 // Put data to storage buffer:
 // require('child_process').spawn('clip').stdin.end(data, 'utf16le');
 
-//  chat: { id: -602230664, title: 'TU'},
+//  chat: { id: -602230664, title: 'Tu'},
 //  chat: { id: -1001441630417, title: 'ИКЕЯ малиновка'},
 //  chat: { id: -1001465270771, title: 'СИМА_Малиновка_постоянные'},
